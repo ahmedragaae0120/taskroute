@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "713831479275",
+    "project_id": "routeapp-8ea1d",
+    "storage_bucket": "routeapp-8ea1d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:713831479275:android:ab7ecb5dfbfb987274cbae",
+        "android_client_info": {
+          "package_name": "com.example.taskroute"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3MDnxy0Clu-mABcZLI3jJQ75EBBz5HQQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -21,11 +21,11 @@ class loginScreen extends StatefulWidget {
 }
 
 class _loginScreenState extends State<loginScreen> {
-  GlobalKey<FormState> formkey = GlobalKey();
+  GlobalKey<FormState> formkey = GlobalKey<FormState>();
 
-  TextEditingController emailController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
 
-  TextEditingController passwordController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
   bool hiddenPassword = true;
 
   @override
@@ -154,8 +154,8 @@ class _loginScreenState extends State<loginScreen> {
   void login() async {
     authProvider provider = Provider.of<authProvider>(context, listen: false);
     if (formkey.currentState?.validate() ?? false) {
+      dialogUtils.show_loaing_dialog(context);
       try {
-        dialogUtils.show_loaing_dialog(context);
         UserCredential credential = await FirebaseAuth.instance
             .signInWithEmailAndPassword(
                 email: emailController.text.trim(),
@@ -163,6 +163,7 @@ class _loginScreenState extends State<loginScreen> {
         userModel? user = await fireStoreHelper.getUser(credential.user!.uid);
         provider.setUser(
             newfirebaseauthUser: credential.user, newdatabaseUser: user);
+        dialogUtils.hide_loaing_dialog(context);
         Navigator.pushNamedAndRemoveUntil(
             context, homeScreen.route_name, (route) => false);
       } on FirebaseAuthException catch (e) {
@@ -184,10 +185,7 @@ class _loginScreenState extends State<loginScreen> {
             positiveButton: () => dialogUtils.hide_loaing_dialog(context),
           );
         }
-      } catch (e) {
-        print(e);
       }
-      await provider.retriveDatabaseUserData();
     }
   }
 }

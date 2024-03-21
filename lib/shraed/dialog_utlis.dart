@@ -10,14 +10,20 @@ class dialogUtils {
           child: Center(
             child: Container(
               padding: const EdgeInsets.all(20),
-              color: Colors.white,
-              child: const Column(
+              color: Theme.of(context).colorScheme.secondary,
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   CircularProgressIndicator.adaptive(),
                   SizedBox(height: 7),
-                  Text("loading"),
+                  Text(
+                    "loading",
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall!
+                        .copyWith(fontSize: 18, fontWeight: FontWeight.w700),
+                  ),
                 ],
               ),
             ),
@@ -50,13 +56,19 @@ class dialogUtils {
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.secondary,
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(message),
+                  Text(
+                    message,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall!
+                        .copyWith(fontSize: 18, fontWeight: FontWeight.w700),
+                  ),
                   SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -64,11 +76,27 @@ class dialogUtils {
                       if (positiveText != null)
                         TextButton(
                             onPressed: positiveButton,
-                            child: Text(positiveText)),
+                            child: Text(
+                              positiveText,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall!
+                                  .copyWith(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700),
+                            )),
                       if (negativeText != null)
                         TextButton(
                             onPressed: positiveButton,
-                            child: Text(negativeText)),
+                            child: Text(
+                              negativeText,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall!
+                                  .copyWith(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700),
+                            )),
                     ],
                   )
                 ],

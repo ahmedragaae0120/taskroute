@@ -147,10 +147,4 @@ class _homeScreenState extends State<homeScreen> {
           ],
         ));
   }
-
-  Future<List<courseModel>> getcourses() async {
-    List<courseModel> courses = await fireStoreHelper.getAllCourse();
-
-    return courses;
-  }
 }

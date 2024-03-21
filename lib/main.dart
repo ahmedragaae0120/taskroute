@@ -18,7 +18,7 @@ void main() async {
         create: (context) => authProvider(),
       ),
       ChangeNotifierProvider(
-        create: (context) => appProvider(),
+        create: (context) => appProvider()..initialize(),
       )
     ],
     child: const task_route(),
@@ -36,7 +36,7 @@ class task_route extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: theme.themeLight,
       darkTheme: theme.themeDark,
-      themeMode: ProviderApp.mode,
+      themeMode: ProviderApp.theme,
       routes: {
         loginScreen.route_name: (context) => loginScreen(),
         signInScreen.route_name: (context) => signInScreen(),

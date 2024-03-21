@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taskroute/layout/app_provider.dart';
 import 'package:taskroute/layout/home/widgets/Featured_course_widget.dart';
+import 'package:taskroute/layout/home/widgets/best_seling_builder.dart';
+import 'package:taskroute/layout/home/widgets/best_selling_widget.dart';
+import 'package:taskroute/layout/home/widgets/featuredC_builder.dart';
 import 'package:taskroute/layout/login/login_screen.dart';
+import 'package:taskroute/models/courses_model.dart';
+import 'package:taskroute/models/user_Model.dart';
+import 'package:taskroute/shraed/dialog_utlis.dart';
 import 'package:taskroute/shraed/providers/auth_provider.dart';
+import 'package:taskroute/shraed/remote/fire_store/fire_store_helper.dart';
 
 class homeScreen extends StatefulWidget {
   static const String route_name = "homeScreen";
@@ -18,6 +25,7 @@ class _homeScreenState extends State<homeScreen> {
   Widget build(BuildContext context) {
     authProvider provider = Provider.of<authProvider>(context);
     appProvider ProviderApp = Provider.of<appProvider>(context);
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
         appBar: AppBar(
           leading: Image.asset("assets/images/Group 6.png",
@@ -43,10 +51,12 @@ class _homeScreenState extends State<homeScreen> {
           actions: [
             IconButton(
                 onPressed: () {
-                  ProviderApp.changeMode();
+                  ProviderApp.changeTheme(ProviderApp.theme == ThemeMode.light
+                      ? ThemeMode.dark
+                      : ThemeMode.light);
                 },
                 icon: Icon(
-                  ProviderApp.mode == ThemeMode.light
+                  ProviderApp.theme == ThemeMode.light
                       ? Icons.dark_mode
                       : Icons.light_mode,
                   color: Theme.of(context).colorScheme.primary,
@@ -67,27 +77,80 @@ class _homeScreenState extends State<homeScreen> {
         ),
         body: Column(
           children: [
-            Row(
-              children: [
-                Text(
-                  "Featured ",
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
+            Expanded(
+              child: CustomScrollView(
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Featured ",
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          Text(
+                            "Courses",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall!
+                                .copyWith(fontSize: 20),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-                Text(
-                  "Courses",
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleSmall!
-                      .copyWith(fontSize: 20),
-                ),
-              ],
-            ),
-            FeaturedCourseWidget(),
+                  featuredCBuilder(),
+                  SliverToBoxAdapter(child: SizedBox(height: height * 0.05)),
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Best Selling ",
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          Text(
+                            "Courses",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall!
+                                .copyWith(fontSize: 20),
+                          ),
+                          Spacer(),
+                          Text(
+                            "View All",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(
+                                    fontSize: 16, fontWeight: FontWeight.w700),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SliverToBoxAdapter(child: SizedBox(height: 15)),
+                  bestSellingBuilder(),
+                ],
+              ),
+            )
           ],
         ));
+  }
+
+  Future<List<courseModel>> getcourses() async {
+    List<courseModel> courses = await fireStoreHelper.getAllCourse();
+
+    return courses;
   }
 }

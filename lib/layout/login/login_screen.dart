@@ -40,10 +40,12 @@ class _loginScreenState extends State<loginScreen> {
         actions: [
           IconButton(
               onPressed: () {
-                ProviderApp.changeMode();
+                ProviderApp.changeTheme(ProviderApp.theme == ThemeMode.light
+                    ? ThemeMode.dark
+                    : ThemeMode.light);
               },
               icon: Icon(
-                ProviderApp.mode == ThemeMode.light
+                ProviderApp.theme == ThemeMode.light
                     ? Icons.dark_mode
                     : Icons.light_mode,
                 color: Theme.of(context).colorScheme.primary,
